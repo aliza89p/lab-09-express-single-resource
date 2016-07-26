@@ -5,7 +5,7 @@ const nodemon = require('gulp-nodemon');
 const testFiles = ['./test/*.js'];
 const appFiles = ['./lib/*.js', './*.js'];
 
-gulp.task('eslint', () => {
+gulp.task('lint', () => {
   gulp.src(appFiles)
     .pipe(eslint({
       rules: {
@@ -50,7 +50,7 @@ gulp.task('eslint', () => {
         .pipe(eslint.format());
 });
 
-gulp.task('mocha', () => {
+gulp.task('test', () => {
   gulp.src(testFiles)
     .pipe(mocha());
 });
@@ -62,7 +62,7 @@ gulp.task('nodemon', () => {
     });
 });
 
-gulp.task('default', ['eslint', 'mocha'], () => {
+gulp.task('default', ['lint', 'test'], () => {
   console.log('default for eslint and mocha');
 });
 
