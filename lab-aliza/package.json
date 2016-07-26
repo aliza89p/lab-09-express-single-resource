@@ -1,0 +1,25 @@
+{
+  "name": "lab-aliza",
+  "version": "1.0.0",
+  "description": "single resource express API",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aliza Pilisuk",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.1.0",
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "uuid": "^2.0.2"
+  }
+}
