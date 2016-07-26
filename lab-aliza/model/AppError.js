@@ -6,7 +6,9 @@ const AppError = function(message, statusCode, resMessage) {
   this.resMessage = resMessage;
 };
 
-AppError.prototype = Object.create(Error.prototype);
+AppError.prototype.respond = function(){
+  this.resMessage.send({msg: this.message, status: this.statusCode});
+};
 
 AppError.hasError = function(err){
   return err instanceof AppError;
