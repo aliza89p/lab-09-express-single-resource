@@ -7,15 +7,23 @@ let router = Router();
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
+router.use(appError());
 
-router.post('/user', bodyParser, appError, (req, res) => {
-  res.status(200).json({id: req.body.id, name: req.body.name, creationDate: req.body.creationDate});
+let user = new UserConstructor();
+user.id = this.user.id;
+user.name = this.user.name;
+user.creationDate = this.user.creationDate;
+
+router.get('/user/:id', (req, res) => {
+  res.status(200).json({id: req.params.id});
 });
 
-router.get('/user/:id/:name/:date', appError, (req, res) => {
-  res.status(200).json({id: req.params.id, name: req.params.name, creationDate: req.params.creationDate});
+router.post('/user', (req, res) => {
+  res.status(200).json({name: req.body.name});
 });
 
-router.use('/api', router);
+router.put('/user/:id', (req, res) => {
+  res.status(200).json({id: req.params.id});
+});
 
 module.exports = router;
