@@ -3,7 +3,7 @@
 const Router = require('express').Router;
 const debug = require('debug');
 const serverlog = debug('serverlog');
-const appError = require('../model/apperror');
+const AppError = require('../model/apperror');
 const User = require('../model/userconstructor');
 let router = Router();
 var bodyParser = require('body-parser');
@@ -21,16 +21,21 @@ router.get('/user/:id', (req, res) => {
 });
 
 router.post('/user', jsonParser, (req, res) => {
-  res.status(200).json({name: req.body.name});
   if(req.body){
     var user = new User(req.body.name);
     userPool[user.id] = user;
+    res.status(200).json(user);
     serverlog('users: ', userPool);
   }
 });
 
 router.put('/user/:id', (req, res) => {
-  res.status(200).json({id: req.params.id});
+  if(req.body){
+    var user = new User(req.body.name);
+    userPool[req.params.id] = user;
+    res.status(200).json(user);
+    serverlog('users: ', userPool);
+  }
 });
 
 module.exports = router;
