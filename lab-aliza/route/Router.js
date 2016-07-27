@@ -20,6 +20,11 @@ router.get('/user/:id', (req, res) => {
   res.status(200).json(user);
 });
 
+router.get('/user/all', (req, res) => {
+  serverlog(userPool);
+  res.status(200).json(userPool);
+});
+
 router.post('/user', jsonParser, (req, res) => {
   if(req.body){
     var user = new User(req.body.name);
