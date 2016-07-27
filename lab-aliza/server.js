@@ -2,7 +2,7 @@
 
 const express = require('express');
 let app = express();
-let router = require('./route/router');
+let router = require('./route/Router');
 
 app.use('/api', router);
 
