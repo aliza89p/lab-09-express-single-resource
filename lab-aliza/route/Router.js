@@ -10,24 +10,19 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 let jsonParser = bodyParser.json();
 
-const userPool = {};
+const userPool = module.exports = exports = {};
 
 router.get('/user/:id', (req, res) => {
-  if(!req.params.id){
+  if(!userPool[req.params.id]){
     serverlog('error');
     return AppError.error400('400 bad request').respond(res);
   }
-  if(req.params.id !== userPool[req.params.id]){
-    serverlog('404 error');
-    return AppError.error404('404 not found').respond(res);
-  }
-  if(req.params.id){
-    serverlog(req.params.id);
-    serverlog(userPool);
-    var user = userPool[req.params.id];
-    serverlog('user: ', user);
-    return res.status(200).json(user);
-  }
+  serverlog(req.params.id);
+  serverlog(userPool);
+  var user = userPool[req.params.id];
+  serverlog('user: ', user);
+  return res.status(200).json(user);
+
 });
 
 router.get('/all', (req, res) => {
