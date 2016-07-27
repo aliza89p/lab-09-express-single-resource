@@ -9,6 +9,7 @@ let router = Router();
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 let jsonParser = bodyParser.json();
+const errResponse = require('../model/errorresponse');
 
 const userPool = module.exports = exports = {};
 
