@@ -6,8 +6,8 @@ const AppError = function(message, statusCode, resMessage) {
   this.resMessage = resMessage;
 };
 
-AppError.prototype.respond = function(){
-  this.resMessage.send({msg: this.message, status: this.statusCode});
+AppError.prototype.respond = function(res){
+  res.status(this.statusCode).json(this.message);
 };
 
 AppError.hasError = function(err){
@@ -23,7 +23,7 @@ AppError.error404 = function(message){
 };
 
 AppError.error500 = function(message){
-  return new AppError(message, 404, 'internal service error');
+  return new AppError(message, 500, 'internal service error');
 };
 
 module.exports = AppError;
