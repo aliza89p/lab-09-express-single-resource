@@ -13,42 +13,62 @@ let jsonParser = bodyParser.json();
 const userPool = {};
 
 router.get('/user/:id', (req, res) => {
-  serverlog(req.params.id);
-  serverlog(userPool);
-  var user = userPool[req.params.id];
-  serverlog('user: ', user);
-  res.status(200).json(user);
+  if(!req.params.id){
+    serverlog('error');
+    return AppError.error400('400 bad request').respond(res);
+  }
+  if(req.params.id !== userPool[req.params.id]){
+    serverlog('404 error');
+    return AppError.error404('404 not found').respond(res);
+  }
+  if(req.params.id){
+    serverlog(req.params.id);
+    serverlog(userPool);
+    var user = userPool[req.params.id];
+    serverlog('user: ', user);
+    return res.status(200).json(user);
+  }
 });
 
-router.get('/user/all', (req, res) => {
+router.get('/all', (req, res) => {
   serverlog(userPool);
-  res.status(200).json(userPool);
+  return res.status(200).json(userPool);
 });
 
 router.post('/user', jsonParser, (req, res) => {
-  if(req.body){
-    var user = new User(req.body.name);
-    userPool[user.id] = user;
-    res.status(200).json(user);
-    serverlog('users: ', userPool);
+  if(!req.body.name) {
+    serverlog('error');
+    return AppError.error400('400 bad request').respond(res);
   }
+  var user = new User(req.body.name);
+  userPool[user.id] = user;
+  res.status(200).json(user);
+  serverlog('users: ', userPool);
 });
 
 router.put('/user/:id', (req, res) => {
-  if(req.body){
-    var user = new User(req.body.name);
-    userPool[req.params.id] = user;
-    res.status(200).json(user);
-    serverlog('users: ', userPool);
+  if(!req.params.id){
+    serverlog('error');
+    return AppError.error404('404 not found').respond(res);
   }
+  if(!req.body.name){
+    serverlog('error');
+    return AppError.error400('400 bad request').respond(res);
+  }
+  var user = new User(req.body.name);
+  userPool[req.params.id] = user;
+  res.status(200).json(user);
+  serverlog('users: ', userPool);
 });
 
 router.delete('/user/:id', (req, res) => {
-  if(req.params.id){
-    delete userPool[req.params.id];
-    res.status(200).json(userPool);
-    serverlog('users: ', userPool);
+  if(!req.params.id){
+    serverlog('error');
+    return AppError.error404('404 not found').respond(res);
   }
+  delete userPool[req.params.id];
+  res.status(200).json(userPool);
+  serverlog('users: ', userPool);
 });
 
 module.exports = router;
