@@ -8,7 +8,7 @@ const request = chai.request;
 const server = require('../server');
 
 describe('POST testing', () => {
-  it('Test valid POST request', (done) => {
+  it('Test POST 200', (done) => {
     request(server)
       .post('/api/user')
       .send({
@@ -22,7 +22,7 @@ describe('POST testing', () => {
         done();
       });
   });
-  it('test POST error', (done) => {
+  it('test POST 400', (done) => {
     request(server)
     .post('/api/user')
     .send({
@@ -49,16 +49,16 @@ describe('GET testing', () => {
       done();
     });
   });
-  it('test GET 404', (done) => {
+  it('test GET 400', (done) => {
     request(server)
     .get('/api/user/123')
     .end(function(err, res) {
-      expect(res).to.have.status(404);
-      expect(res.body).to.eql('404 not found');
+      expect(res).to.have.status(400);
+      expect(res.body).to.eql('400 bad request');
       done();
     });
   });
-  it('GET /user/<id>', (done) => {
+  it('test GET 200', (done) => {
     request(server)
     .get('/api/user/' + users.id)
     .end(function(err, res) {
@@ -83,7 +83,7 @@ describe('PUT testing', () => {
       done();
     });
   });
-  it('test PUT /user/<id> name=tyler', (done) => {
+  it('test PUT 200', (done) => {
     request(server)
     .put('/api/user/' + users.id)
     .send({
@@ -96,7 +96,7 @@ describe('PUT testing', () => {
       done();
     });
   });
-  it('PUT /user/1234', (done) => {
+  it('test PUT 400', (done) => {
     request(server)
     .put('/api/user/1234')
     .end(function(err, res) {

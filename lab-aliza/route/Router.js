@@ -15,7 +15,7 @@ const userPool = module.exports = exports = {};
 router.get('/user/:id', (req, res) => {
   if(!userPool[req.params.id]){
     serverlog('error');
-    return AppError.error404('404 not found').respond(res);
+    return AppError.error400('400 bad request').respond(res);
   }
   serverlog(req.params.id);
   serverlog(userPool);
