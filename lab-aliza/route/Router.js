@@ -38,4 +38,12 @@ router.put('/user/:id', (req, res) => {
   }
 });
 
+router.delete('/user/:id', (req, res) => {
+  if(req.params.id){
+    delete userPool[req.params.id];
+    res.status(200).json(userPool);
+    serverlog('users: ', userPool);
+  }
+});
+
 module.exports = router;
