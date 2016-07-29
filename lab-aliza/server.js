@@ -1,8 +1,14 @@
 'use strict';
 
 const express = require('express');
+const morgan = require('morgan');
 let app = express();
 let router = require('./route/Router');
+
+
+app.use(morgan('combined'));
+
+
 
 app.use('/api', router);
 

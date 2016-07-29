@@ -9,21 +9,20 @@ let router = Router();
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 let jsonParser = bodyParser.json();
-// const errResponse = require('../model/errorresponse');
+const errResponse = require('../model/errorresponse');
 
 const userPool = module.exports = exports = {};
 
 router.get('/user/:id', (req, res) => {
   if(!userPool[req.params.id]){
     serverlog('error');
-    return AppError.error400('400 bad request').respond(res);
+    return errResponse(AppError.error400('400 bad request').respond(res));
   }
   serverlog(req.params.id);
   serverlog(userPool);
   var user = userPool[req.params.id];
   serverlog('user: ', user);
   return res.status(200).json(user);
-
 });
 
 router.get('/all', (req, res) => {
@@ -34,7 +33,7 @@ router.get('/all', (req, res) => {
 router.post('/user', jsonParser, (req, res) => {
   if(!req.body.name) {
     serverlog('error');
-    return AppError.error400('400 bad request').respond(res);
+    return errResponse(AppError.error400('400 bad request').respond(res));
   }
   var user = new User(req.body.name);
   userPool[user.id] = user;
@@ -45,11 +44,11 @@ router.post('/user', jsonParser, (req, res) => {
 router.put('/user/:id', (req, res) => {
   if(!req.params.id){
     serverlog('error');
-    return AppError.error404('404 not found').respond(res);
+    return errResponse(AppError.error404('404 not found').respond(res));
   }
   if(!req.body.name){
     serverlog('error');
-    return AppError.error400('400 bad request').respond(res);
+    return errResponse(AppError.error400('400 bad request').respond(res));
   }
   var user = new User(req.body.name);
   userPool[req.params.id] = user;
@@ -60,7 +59,7 @@ router.put('/user/:id', (req, res) => {
 router.delete('/user/:id', (req, res) => {
   if(!req.params.id){
     serverlog('error');
-    return AppError.error404('404 not found').respond(res);
+    return errResponse(AppError.error404('404 not found').respond(res));
   }
   delete userPool[req.params.id];
   res.status(200).json(userPool);

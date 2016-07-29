@@ -1,11 +1,14 @@
 'use strict';
 
-// const morgan = require('morgan');
-// const Error = require('./AppError');
+const Error = require('./AppError');
 
-const errorResponse = function(err, res, req, next){
-  res.status(err.statusCode || 500).send(err.message);
-  next();
+const errorResponse = function() {
+  return (err, req, res, next) => {
+    if (Error.hasError(err)){ res.status(err.statusCode).send(err.resMessage);
+    }
+    res.status(500).send('internal server problem');
+    next();
+  };
 };
 
 module.exports = errorResponse;
