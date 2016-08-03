@@ -9,14 +9,13 @@ let router = Router();
 var bodyParser = require('body-parser');
 router.use(bodyParser.json());
 let jsonParser = bodyParser.json();
-const errResponse = require('../model/errorresponse');
 
 const userPool = module.exports = exports = {};
 
 router.get('/user/:id', (req, res) => {
   if(!userPool[req.params.id]){
     serverlog('error');
-    return errResponse(AppError.error400('400 bad request').respond(res));
+    return res.sendError(AppError.error400('400 bad request'));
   }
   serverlog(req.params.id);
   serverlog(userPool);
@@ -33,7 +32,7 @@ router.get('/all', (req, res) => {
 router.post('/user', jsonParser, (req, res) => {
   if(!req.body.name) {
     serverlog('error');
-    return errResponse(AppError.error400('400 bad request').respond(res));
+    return res.sendError(AppError.error400('400 bad request'));
   }
   var user = new User(req.body.name);
   userPool[user.id] = user;
@@ -44,11 +43,11 @@ router.post('/user', jsonParser, (req, res) => {
 router.put('/user/:id', (req, res) => {
   if(!req.params.id){
     serverlog('error');
-    return errResponse(AppError.error404('404 not found').respond(res));
+    return res.sendError(AppError.error404('404 not found'));
   }
   if(!req.body.name){
     serverlog('error');
-    return errResponse(AppError.error400('400 bad request').respond(res));
+    return res.sendError(AppError.error400('400 bad request'));
   }
   var user = new User(req.body.name);
   userPool[req.params.id] = user;
@@ -59,7 +58,7 @@ router.put('/user/:id', (req, res) => {
 router.delete('/user/:id', (req, res) => {
   if(!req.params.id){
     serverlog('error');
-    return errResponse(AppError.error404('404 not found').respond(res));
+    return res.sendError(AppError.error404('404 not found'));
   }
   delete userPool[req.params.id];
   res.status(200).json(userPool);
